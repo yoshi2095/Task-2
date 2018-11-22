@@ -29,7 +29,7 @@
             <span>{{this.cardNumber}}</span>
             <span id="form2">
                 <input type="text" name="cvv"/>
-                <button id="checkButton">Verify CVV</button>
+                <button class="checkButton">Verify CVV</button>
             </span>
         </li>
     {{/each}}
@@ -45,7 +45,7 @@
 
 <script>
 
-    $('#checkButton').on('click', function(){
+    $('.checkButton').on('click', function(){
       let element = $(this);
       let button = element[0];
       let cvv = button.previousElementSibling.value;

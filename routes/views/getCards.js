@@ -9,7 +9,7 @@ module.exports = function(req, res){
 
   Card.find({}, function(err, result){
       if(err) throw err;
-      //console.log("the result is:",result);
+      console.log("the result is:",result);
       allCards = result;
       res.render('cardsList', {
           cards : allCards,

@@ -13,7 +13,7 @@ module.exports = function(req, res){
       console.log('entered the find function callback', result);
 
       if(err){
-          res.send({status: error});
+          res.send({status: err});
       }
 
       if(result.length){
@@ -24,7 +24,7 @@ module.exports = function(req, res){
 
       console.log("the new card formed is:", newCard);
 
-      newCard.save((err)=>{
+      newCard.save(function(err){
 
           if(err) {
               res.send({status: err});
@@ -35,6 +35,7 @@ module.exports = function(req, res){
               Card.find({}, function(err, result){
                   if(err) throw err;
                   res.locals.cards = result;
+
                   res.render('cardsList');
               });
           }

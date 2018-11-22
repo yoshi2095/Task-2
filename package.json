@@ -9,6 +9,7 @@
   "author": "Yoshita Arora <arora4.yoshi@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^3.0.2",
     "express-handlebars": "^3.0.0",
     "handlebars": "^4.0.12",
     "keystone": "git+https://github.com/kushal-likhi/keystone.git#v4beta5"
