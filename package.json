@@ -1,0 +1,16 @@
+{
+  "name": "keystone_boilerplate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yoshita Arora <arora4.yoshi@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "express-handlebars": "^3.0.0",
+    "handlebars": "^4.0.12",
+    "keystone": "git+https://github.com/kushal-likhi/keystone.git#v4beta5"
+  }
+}
