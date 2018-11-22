@@ -10,27 +10,35 @@ module.exports = function(req, res){
 
   Card.find({cardNumber: data.cardNumber}, function(err, result){
 
-      let cards = result;
+      console.log('entered the find function callback', result);
 
       if(err){
-          console.log("error is:", err);
+          res.send({status: error});
       }
 
-      if(cards.length){
+      if(result.length){
           res.send({status: 'card already present!'});
-      }else{
-          let newCard = new Card(data);
-
-          newCard.save((err)=>{
-              if(err) res.locals.isError = true;
-              else{
-                  console.log('card saved!', newCard);
-
-                  res.locals.submitted = true;
-              }
-              res.render('cardsList');
-          });
-
       }
+
+      let newCard = new Card(data);
+
+      console.log("the new card formed is:", newCard);
+
+      newCard.save((err)=>{
+
+          if(err) {
+              res.send({status: err});
+          }
+          else{
+              console.log('card saved!', newCard);
+              res.locals.submitted = true;
+              Card.find({}, function(err, result){
+                  if(err) throw err;
+                  res.locals.cards = result;
+                  res.render('cardsList');
+              });
+          }
+
+      });
   });
 };

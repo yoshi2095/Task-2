@@ -1,9 +1,8 @@
 {{#if submitted}}
-    <p>Your response has been submitted sucsessfuly!</p>
+    Card saved successfully!
 {{/if}}
-
+<br>
 <form method="post" action='/api/card'>
-    <br/><br/>
     <label>Your Name: </label>
     <input type="text" name="name" placeholder="Enter Your Full Name"/>
     <br/><br/>
@@ -21,14 +20,20 @@
 
 <p>All the cards present:</p>
 
-{{#each cards}}
-   <li class="listItem">Card {{@index}}: {{this.cardNumber}}
-        <span id="form2">
-            <input type="text" name="cvv"/>
-            <button onclick="check(this)">check</button>
-        </span>
-   </li>
-{{/each}}
+<ul>
+    {{#each cards}}
+        <li class="listItem">
+            <p>Card {{@index}}:</p>
+            <span>CVV: {{this.cvv}}</span>
+            <span>Card Number:</span>
+            <span>{{this.cardNumber}}</span>
+            <span id="form2">
+                <input type="text" name="cvv"/>
+                <button id="checkButton">Verify CVV</button>
+            </span>
+        </li>
+    {{/each}}
+</ul>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.js"></script>
 
@@ -36,28 +41,28 @@
         src="https://code.jquery.com/jquery-3.3.1.js"
         integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
         crossorigin="anonymous">
-
 </script>
 
 <script>
 
-    // Handlebars.registerHelper('check', function (object) {
-    //     console.log("the object passed is:", object);
-    // });
+    $('#checkButton').on('click', function(){
+      let element = $(this);
+      let button = element[0];
+      let cvv = button.previousElementSibling.value;
+      let cardNum = button.parentElement.previousElementSibling;
+      let number = $(cardNum)[0].innerText;
+      console.log("button:", number, cvv);
 
-    function check(object){
-
-        console.log("the object passed is:", object);
-
-        // $.ajax({
-        //     url: `http://0.0.0.0:3000/api/card/?id=${number}&cvv=${cvv}`,
-        // })
-        // .done(function( data ) {
-        //    console("done!!");
-        // });
+      $.ajax({
+         url: `http://0.0.0.0:3000/api/card?number=${number}&cvv=${cvv}`
+      })
+      .done(function( data ) {
+          console.log("done!!", data);
+          alert(data.status);
+      });
 
 
-    }
+    });
 </script>
 
 

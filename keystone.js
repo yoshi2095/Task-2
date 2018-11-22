@@ -10,7 +10,12 @@ keystone.init({
     views: 'templates/views',
    'view engine': '.hbs',
     'custom engine' : handlebars.create({
-        extname: '.hbs'
+        extname: '.hbs',
+        helpers: {
+            check: function (index) {
+                console.log('the object passed is', index );
+            }
+        }
     }).engine
 });
 
