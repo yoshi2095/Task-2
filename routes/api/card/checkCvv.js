@@ -13,30 +13,59 @@ module.exports = function(req, res){
 
     console.log("cvv from params:", cvv);
 
-    bcrypt.genSalt(saltRounds, function(err, salt){
+    Card.find({cardNumber: params.number}, function(err, result){
 
-        console.log("the salt generated is", salt);
+        console.log("find function entered. the card retrieved is:",  result);
 
-        if(err) return next(err);
+        if(err) res.send({status: err});
 
-        bcrypt.hash(cvv, salt, function(err, hash){
+        if(!result.length){
+            res.send({status: "No such card present"});
+        }
 
-            console.log("the hash generated is:", hash);
+        let encryptedCVV = result[0].cvv;
 
-            let encryptedCvv = hash;
+        console.log("just above the bcrypt function");
 
-            Card.find({cardNumber: params.number}, function(err, result){
-                if(err) throw err;
-                let card = result[0];
+        bcrypt.compare(params.cvv, encryptedCVV, function(err, result) {
+            console.log("inside compare function callback", err, result);
 
-                console.log("the card retrieved is:", card, card.cvv);
+            if(result){
+                res.send({status: "you entered the right cvv"});
+            }else{
+                res.send({status: "wrong cvv entered"});
+            }
 
-                if(card.cvv === encryptedCvv){
-                    res.send({status: "you entered the right cvv"});
-                }else{
-                    res.send({status: "wrong cvv entered"});
-                }
-            });
         });
+
     });
+
+
+
+    // bcrypt.genSalt(saltRounds, function(err, salt){
+    //
+    //     console.log("the salt generated is", salt);
+    //
+    //     if(err) return next(err);
+    //
+    //     bcrypt.hash(cvv, salt, function(err, hash){
+    //
+    //         console.log("the hash generated is:", hash);
+    //
+    //         let encryptedCvv = hash;
+    //
+    //         Card.find({cardNumber: params.number}, function(err, result){
+    //             if(err) throw err;
+    //             let card = result[0];
+    //
+    //             console.log("the card retrieved is:", card, card.cvv);
+    //
+    //             if(card.cvv === encryptedCvv){
+    //                 res.send({status: "you entered the right cvv"});
+    //             }else{
+    //                 res.send({status: "wrong cvv entered"});
+    //             }
+    //         });
+    //     });
+    // });
 };

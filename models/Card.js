@@ -5,10 +5,10 @@ let Schema = mongoose.Schema;
 const saltRounds = 10;
 
 const cardSchema = new Schema({
-    name: {type: String, unique:true},
-    cardNumber: {type: Number, unique:true},
-    expiry: {type: Date},
-    cvv: {type: String}
+    name: {type: String, unique:true, required: true},
+    cardNumber: {type: Number, unique:true, required: true},
+    expiry: {type: Date, required: true},
+    cvv: {type: String, required: true} //because it needs to be encrypted and will store a hash, therefore cant be a number
 });
 
 cardSchema.pre('save', function(next){

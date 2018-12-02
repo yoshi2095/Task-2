@@ -1,6 +1,18 @@
 {{#if submitted}}
     Card saved successfully!
 {{/if}}
+{{# if cardNumberNotValid}}
+    Please Enter valid card Number
+{{/if}}
+{{#if cvvNotValid}}
+    Please Enter valid CVV
+{{/if}}
+{{#if dateNotValid}}
+    Please Enter valid date
+{{/if}}
+{{#if nameNotValid}}
+    Please Enter valid name
+{{/if}}
 <br>
 <form method="post" action='/api/card'>
     <label>Your Name: </label>
@@ -24,7 +36,6 @@
     {{#each cards}}
         <li class="listItem">
             <p>Card {{@index}}:</p>
-            <span>CVV: {{this.cvv}}</span>
             <span>Card Number:</span>
             <span>{{this.cardNumber}}</span>
             <span id="form2">
