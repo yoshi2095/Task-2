@@ -35,7 +35,6 @@ module.exports = function(req, res){
               Card.find({}, function(err, result){
                   if(err) throw err;
                   res.locals.cards = result;
-
                   res.render('cardsList');
               });
           }

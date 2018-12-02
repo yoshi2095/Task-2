@@ -8,7 +8,7 @@ const cardSchema = new Schema({
     name: {type: String, unique:true},
     cardNumber: {type: Number, unique:true},
     expiry: {type: Date},
-    cvv: {type: Number}
+    cvv: {type: String}
 });
 
 cardSchema.pre('save', function(next){
@@ -20,22 +20,21 @@ cardSchema.pre('save', function(next){
     if(!card.isModified('cvv')) {
         return next();
     }
+
     bcrypt.genSalt(saltRounds, function(err, salt){
 
         if(err) return next(err);
 
         console.log("pre function salt generated is:", salt);
 
-        bcrypt.hash(card.cvv.toString(), salt, function(err, hash){
+        bcrypt.hash(card.cvv, salt, function(err, hash){
             if(err) return next(err);
             console.log("hash generated is:", hash);
             card.cvv = hash;
             console.log(card.cvv);
-            next();
+            next(card);
         });
     });
-
-    return next(card);
 });
 
 let Card = mongoose.model('Card', cardSchema);

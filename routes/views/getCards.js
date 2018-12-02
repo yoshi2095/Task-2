@@ -12,12 +12,7 @@ module.exports = function(req, res){
       console.log("the result is:",result);
       allCards = result;
       res.render('cardsList', {
-          cards : allCards,
-          // helpers: {
-          //     check: function(cardNumber){
-          //         console.log("the object is", cardNumber);
-          //     }
-          // }
+          cards : allCards
       });
   });
 
